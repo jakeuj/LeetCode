@@ -14,5 +14,19 @@ namespace LeetCode
         IList<bool> KidsWithCandies(int[] candies, int extraCandies);
         // 1512. Number of Good Pairs
         int NumIdenticalPairs(int[] nums);
+        // 1108. Defanging an IP Address
+        string DefangIPaddr(string address);
+        // 771. Jewels and Stones
+        int NumJewelsInStones(string J, string S);
+        // 1342. Number of Steps to Reduce a Number to Zero
+        int NumberOfSteps(int num);
+        // 1528. Shuffle String
+        string RestoreString(string s, int[] indices);
+        // 1365. How Many Numbers Are Smaller Than the Current Number
+        int[] SmallerNumbersThanCurrent(int[] nums);
+        // 1486. XOR Operation in an Array
+        int XorOperation(int n, int start);
+        // 1281. Subtract the Product and Sum of Digits of an Integer
+        int SubtractProductAndSum(int n);
     }
 }

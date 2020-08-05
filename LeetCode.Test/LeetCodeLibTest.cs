@@ -33,11 +33,11 @@ namespace LeetCode.Test
         }
 
         [Theory]
-        [InlineData(new int[] { 2, 5, 1, 3, 4, 7 },3, new int[] { 2, 3, 5, 4, 1, 7 })]
+        [InlineData(new int[] { 2, 5, 1, 3, 4, 7 }, 3, new int[] { 2, 3, 5, 4, 1, 7 })]
         [InlineData(new int[] { 1, 2, 3, 4, 4, 3, 2, 1 }, 4, new int[] { 1, 4, 2, 3, 3, 2, 4, 1 })]
         public void ShuffleTest(int[] nums, int n, int[] expected)
         {
-            var result = _leetCodeLib.Shuffle(nums,n);
+            var result = _leetCodeLib.Shuffle(nums, n);
             var actual = result;
             Assert.Equal(expected, actual);
         }
@@ -56,6 +56,70 @@ namespace LeetCode.Test
         public void NumIdenticalPairsTest(int[] nums, int expected)
         {
             var result = _leetCodeLib.NumIdenticalPairs(nums);
+            var actual = result;
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("1.1.1.1", "1[.]1[.]1[.]1")]
+        public void DefangIPaddrTest(string input, string expected)
+        {
+            var result = _leetCodeLib.DefangIPaddr(input);
+            var actual = result;
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("aA", "aAAbbbb", 3)]
+        public void NumJewelsInStonesTest(string j, string s, int expected)
+        {
+            var result = _leetCodeLib.NumJewelsInStones(j, s);
+            var actual = result;
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(14, 6)]
+        public void NumberOfStepsTest(int num, int expected)
+        {
+            var result = _leetCodeLib.NumberOfSteps(num);
+            var actual = result;
+            Assert.Equal(expected, actual);
+        }
+        [Theory]
+        [InlineData("codeleet", new int[] { 4, 5, 6, 7, 0, 2, 1, 3}, "leetcode")]
+        public void RestoreStringTest(string s, int[] indices, string expected)
+        {
+            var result = _leetCodeLib.RestoreString(s, indices);
+            var actual = result;
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(new int[] { 8, 1, 2, 2, 3 }, new int[] { 4, 0, 1, 1, 3 })]
+        public void SmallerNumbersThanCurrentTest(int[] nums, int[] expected)
+        {
+            var result = _leetCodeLib.SmallerNumbersThanCurrent(nums);
+            var actual = result;
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(5,0,8)]
+        [InlineData(4, 3, 8)]
+        public void XorOperationTest(int n, int start, int expected)
+        {
+            var result = _leetCodeLib.XorOperation(n, start);
+            var actual = result;
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(234, 15)]
+        [InlineData(114, -2)]        
+        public void SubtractProductAndSumTest(int n, int expected)
+        {
+            var result = _leetCodeLib.SubtractProductAndSum(n);
             var actual = result;
             Assert.Equal(expected, actual);
         }
