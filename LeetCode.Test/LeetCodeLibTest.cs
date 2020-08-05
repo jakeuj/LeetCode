@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace LeetCode.Test
@@ -123,5 +124,59 @@ namespace LeetCode.Test
             var actual = result;
             Assert.Equal(expected, actual);
         }
+
+        //DecompressRLElist
+        [Theory]
+        [InlineData(new int[] { 1, 2, 3, 4 }, new int[] { 2, 4, 4, 4 })]
+        [InlineData(new int[] { 1, 1, 2, 3 }, new int[] { 1, 3, 3 })]
+        public void DecompressRLElistTest(int[] nums, int[] expected)
+        {
+            var result = _leetCodeLib.DecompressRLElist(nums);
+            var actual = result;
+            Assert.Equal(expected, actual);
+        }
+
+        //CreateTargetArray
+        [Theory]
+        [InlineData(new int[] { 0, 1, 2, 3, 4 }, new int[] { 0, 1, 2, 2, 1 }, new int[] { 0, 4, 1, 3, 2 })]
+        [InlineData(new int[] { 1, 2, 3, 4, 0 }, new int[] { 0, 1, 2, 3, 0 }, new int[] { 0, 1, 2, 3, 4 })]
+        public void CreateTargetArrayTest(int[] nums, int[] index, int[] expected)
+        {
+            var result = _leetCodeLib.CreateTargetArray(nums, index);
+            var actual = result;
+            Assert.Equal(expected, actual);
+        }
+        //CheckPossibility
+        [Theory]
+        [InlineData(new int[] { 4, 2, 3 }, true)]
+        [InlineData(new int[] { 4, 2, 1 }, false)]
+        [InlineData(new int[] { 3,4,2,3}, false)]
+        public void CheckPossibilityTest(int[] nums, bool expected)
+        {
+            var result = _leetCodeLib.CheckPossibility(nums);
+            var actual = result;
+            Assert.Equal(expected, actual);
+        }
+
+        //GroupThePeople
+        [Theory]
+        [InlineData(new int[] { 3, 3, 3, 3, 3, 1, 3 })]
+        public void GroupThePeopleTest(int[] nums)
+        {
+            IList<IList<int>> expected = new List<IList<int>> { new List<int> { 5 }, new List<int> { 0, 1, 2 }, new List<int> { 3, 4, 6 } };
+            var result = _leetCodeLib.GroupThePeople(nums);
+            var actual = result;
+            Assert.Equal(expected.Count(), actual.Count());
+        }
+
+        //GetTargetCopy
+        //[Theory]
+        //[InlineData(7, 7, 7)]
+        //public void GetTargetCopyTest(int tree, int target, int expected)
+        //{
+        //    var result = _leetCodeLib.GetTargetCopy(tree, target);
+        //    var actual = result;
+        //    Assert.Equal(expected, actual);
+        //}
     }
 }

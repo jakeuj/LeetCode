@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace LeetCode
 {
@@ -136,6 +138,101 @@ namespace LeetCode
             product *= n;
             sum += n;
             return product - sum;
+        }
+
+        public int[] DecompressRLElist(int[] nums)
+        {
+            var output = new List<int>();
+            for(int i=0;i<nums.Length;i+=2)
+            {
+                for (int j = 0; j < nums[i]; j++)
+                    output.Add(nums[i + 1]);
+            }
+            return output.ToArray();
+        }
+
+        public int[] CreateTargetArray(int[] nums, int[] index)
+        {
+            var output = new List<int>();
+            for(int i = 0;i<nums.Length;i++)
+            {
+                var temp = output.Take(index[i]).ToList();
+                temp.Add(nums[i]);
+                temp.AddRange(output.Skip(index[i]));
+                output = temp;
+            }
+            return output.ToArray();
+        }
+        // 類遞增
+        public bool CheckPossibility(int[] nums)
+        {
+            bool modify = false;
+            bool result = true;
+            var temp = nums.ToArray();
+            for (int i =1;i< temp.Length;i++)
+            {
+                if (temp[i - 1] > temp[i])
+                {
+                    if (modify)
+                    {                        
+                        result = false;
+                        break;
+                    }
+                    modify = true;
+                    temp[i] = temp[i - 1];
+                }
+            }
+            if (result)
+                return true;
+            modify = false;
+            result = true;
+            temp = nums.ToArray();
+            for (int i = temp.Length - 1; i >0; i--)
+            {
+                if (temp[i - 1] > temp[i])
+                {
+                    if (modify)
+                    {
+                        return false;
+                    }
+                    modify = true;
+                    temp[i - 1] = temp[i];
+                }
+            }
+            return result;
+        }
+        public class Group
+        {
+            //public int Id { get; set; }
+            public int limit { get; set; }
+            public List<People> peoples { get; set; }
+        }
+
+        public class People
+        {
+            public int Id { get; set; }
+            public int limit { get; set; }
+
+        }
+        public IList<IList<int>> GroupThePeople(int[] groupSizes)
+        {
+            List<Group> groups = new List<Group>();
+            List<People> peoples = new List<People>();
+            IList<IList<int>> result = new List<IList<int>>();
+            int currId = 0;
+            groupSizes.ToList().ForEach(x => {
+                groups.Add(new Group { limit = x, peoples =new List<People>()});
+                peoples.Add(new People { Id = currId, limit = x });
+                currId++;
+            });
+            peoples.ForEach(x => {
+                var target = groups.Where(y => y.limit == x.limit && y.peoples.Count() < y.limit).FirstOrDefault();
+                target.peoples.Add(x);
+            });
+            groups.Where(x => x.peoples.Count > 0).ToList().ForEach(x => {
+                result.Add(x.peoples.Select(y => y.Id).ToList());
+            });
+            return result;
         }
     }
 }
