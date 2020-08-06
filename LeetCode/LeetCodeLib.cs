@@ -234,5 +234,172 @@ namespace LeetCode
             });
             return result;
         }
+        public enum RoomState 
+        { 
+            IsDelete = -1,
+            OK = 0,
+            Start = 1,
+            End = 2
+        }
+        public class Room
+        {
+            public int Id { get; set; }
+            // 位置
+            public int PosX { get; set; }
+            public int PosY { get; set; }
+           
+            // 出口
+            public Room EastRoom { get; set; }
+            public Room SouthRoom { get; set; }
+            public Room WestRoom { get; set; }
+            public Room NorthRoom { get; set; }
+            // 狀態
+            public RoomState RoomState { get; set; }
+            public RoomState UsedState { get; set; }
+            public Room(int id, int posX, int posY, RoomState roomState)
+            {
+                Id = id;
+                PosX = posX;
+                PosY = posY;
+                RoomState = roomState;
+            }
+        }
+        public int UniquePathsIII(int[][] grid)
+        {
+            var currId = 0;
+            var rooms = new List<Room>();
+            // map create
+            for(int y=0;y< grid.Length;y++)
+            {
+                for(int x=0; x< grid[y].Length;x++)
+                {
+                    currId++;
+                    var newRoom = new Room(currId, x, y, (RoomState)grid[y][x]);
+                    //上邊界
+                    if (y > 0)
+                    {
+                        newRoom.NorthRoom = rooms.Where(room => room.PosX == x && room.PosY == y - 1).FirstOrDefault();
+                        newRoom.NorthRoom.SouthRoom = newRoom;
+                    }                        
+                    if(x>0)
+                    {
+                        newRoom.WestRoom = rooms.Where(room => room.PosX == x - 1 && room.PosY == y).FirstOrDefault();
+                        newRoom.WestRoom.EastRoom = newRoom;
+                    }
+                        
+                    //if(y< grid.Length-1)
+                    //{
+                    //    newRoom.SouthRoom = rooms.Where(room => room.PosX == x && room.PosY == y + 1).FirstOrDefault();
+                    //    newRoom.SouthRoom.NorthRoom = newRoom;
+                    //}
+                        
+                    //if(x< grid[y].Length)
+                    //{
+                    //    newRoom.EastRoom = rooms.Where(room => room.PosX == x + 1 && room.PosY == y).FirstOrDefault();
+                    //    newRoom.EastRoom.WestRoom = newRoom;
+                    //}
+                        
+                    rooms.Add(newRoom);
+                }
+            }
+            // path
+            var currRoom = rooms.FirstOrDefault(r => r.RoomState == RoomState.Start);
+            
+            // 須走到指定步數
+            var stepNumberMax = currId - rooms.Count(r => r.RoomState == RoomState.IsDelete) - 1;
+
+            int successNumber = 0;
+            currRoom.UsedState = RoomState.Start;
+
+            var target = currRoom.EastRoom;           
+
+            if (IsSafe(target, stepNumberMax))
+                FindPath(rooms, target, stepNumberMax, ref successNumber);
+            rooms.Where(x=>x.Id!= currRoom.Id).ToList().ForEach(r => r.UsedState = RoomState.OK);
+
+            target = currRoom.SouthRoom;
+            if (IsSafe(target, stepNumberMax))
+                FindPath(rooms, target, stepNumberMax, ref successNumber);
+            rooms.Where(x => x.Id != currRoom.Id).ToList().ForEach(r => r.UsedState = RoomState.OK);
+
+            target = currRoom.WestRoom;
+            if (IsSafe(target, stepNumberMax))
+                FindPath(rooms, target, stepNumberMax, ref successNumber);
+            rooms.Where(x => x.Id != currRoom.Id).ToList().ForEach(r => r.UsedState = RoomState.OK);
+
+            target = currRoom.NorthRoom;
+            if (IsSafe(target, stepNumberMax))
+                FindPath(rooms, target, stepNumberMax, ref successNumber);
+            //rooms.Where(x => x.Id != currRoom.Id).ToList().ForEach(r => r.UsedState = RoomState.OK);            
+
+            return successNumber;
+        }
+
+        public bool FindPath(List<Room> rooms, Room room,int stepNumberMax,ref int successNumber)
+        {
+            var isSucess = false;
+            room.UsedState = RoomState.Start;
+            stepNumberMax--;
+            // 已找到路徑
+            if (room.RoomState == RoomState.End && stepNumberMax == 0)
+            {
+                isSucess = true;
+                room.UsedState = RoomState.OK;
+                successNumber++;
+                return true;
+            }
+            // 走到出口但沒走完全部地圖 or 步數用盡
+            if (room.RoomState == RoomState.End || stepNumberMax == 0)
+            {
+                isSucess = false;
+                room.UsedState = RoomState.OK;
+                return false;
+            }
+
+            // 查找路線
+
+            // 嘗試東出口
+            var target = room.EastRoom;
+            // 檢查出口狀況
+            if (IsSafe(target, stepNumberMax))
+            {
+                // 走過去
+                var result = FindPath(rooms, target, stepNumberMax, ref successNumber);                    
+            }
+
+            target = room.SouthRoom;
+            if (IsSafe(target, stepNumberMax))
+            {
+                // 走過去
+                var result = FindPath(rooms, target, stepNumberMax, ref successNumber);
+            }
+
+            target = room.WestRoom;
+            if (IsSafe(target, stepNumberMax))
+            {
+                // 走過去
+                var result = FindPath(rooms, target, stepNumberMax, ref successNumber);
+            }
+
+            target = room.NorthRoom;
+            if (IsSafe(target, stepNumberMax))
+            {
+                // 走過去
+                var result = FindPath(rooms, target, stepNumberMax, ref successNumber);
+            }
+            //嘗試走完之後回到上一步復原
+            room.UsedState = RoomState.OK;
+            stepNumberMax++;
+            return successNumber>0;
+        }
+        public static bool IsSafe(Room room, int stepNumberMax)
+        {
+            if (room != null && room.RoomState != RoomState.IsDelete && room.UsedState == RoomState.OK)
+                if (room.RoomState == RoomState.End && stepNumberMax != 1)
+                    return false;
+                else return true;
+
+            return false;
+        }
     }
 }

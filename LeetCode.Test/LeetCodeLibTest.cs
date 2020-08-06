@@ -169,14 +169,15 @@ namespace LeetCode.Test
             Assert.Equal(expected.Count(), actual.Count());
         }
 
-        //GetTargetCopy
-        //[Theory]
-        //[InlineData(7, 7, 7)]
-        //public void GetTargetCopyTest(int tree, int target, int expected)
-        //{
-        //    var result = _leetCodeLib.GetTargetCopy(tree, target);
-        //    var actual = result;
-        //    Assert.Equal(expected, actual);
-        //}
+        //UniquePathsIII
+        [Theory]
+        [InlineData(2)]
+        public void UniquePathsIIITest(int expected)
+        {
+            var input = new int[][] { new int[] { 1, 0, 0, 0 }, new int[] { 0, 0, 0, 0 }, new int[] { 0, 0, 2, -1 } };
+            var result = _leetCodeLib.UniquePathsIII(input);
+            var actual = result;
+            Assert.Equal(expected, actual);
+        }
     }
 }

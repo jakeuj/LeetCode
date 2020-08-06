@@ -22,13 +22,13 @@ namespace LeetCode.Test
             Assert.Equal(expected, actual);
         }
 
-        [Theory]
-        [InlineData(0, 0, 3, 2, 5, 0, 2, 5)]
-        public void UpdateSubrectangle(int row1, int col1, int row2, int col2, int newValue, int row, int col, int expected)
-        {
-            _subrectangleQueries.UpdateSubrectangle(row1, col1, row2, col2, newValue);
-            var actual = _subrectangleQueries.GetValue(row, col);
-            Assert.Equal(expected, actual);
-        }
+        //[Theory]
+        //[InlineData(0, 0, 3, 2, 5, 0, 2, 5)]
+        //public void UpdateSubrectangle(int row1, int col1, int row2, int col2, int newValue, int row, int col, int expected)
+        //{
+        //    _subrectangleQueries.UpdateSubrectangle(row1, col1, row2, col2, newValue);
+        //    var actual = _subrectangleQueries.GetValue(row, col);
+        //    Assert.Equal(expected, actual);
+        //}
     }
 }

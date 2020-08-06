@@ -41,5 +41,7 @@ namespace LeetCode
         IList<IList<int>> GroupThePeople(int[] groupSizes);
 
         //TreeNode GetTargetCopy(TreeNode original, TreeNode cloned, TreeNode target);
+
+        int UniquePathsIII(int[][] grid);
     }
 }
